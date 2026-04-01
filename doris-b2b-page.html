@@ -696,13 +696,25 @@
 
   .b2b-benefits-image-wrap {
     max-width: 480px;
-    height: 380px;
+    height: 300px;
     margin: 0 auto;
+    order: -1; /* Imagem aparece acima da lista no mobile */
   }
 
-  /* No mobile mostra só a primeira imagem */
-  .b2b-screen { opacity: 0; }
-  .b2b-screen.is-visible { opacity: 1; transform: none; }
+  /* Crossfade de telas também no mobile */
+  .b2b-screen { opacity: 0; transform: none; }
+  .b2b-screen.is-visible { opacity: 1; }
+
+  /* Animação de entrada dos benefícios no mobile */
+  .b2b-benefit-item {
+    opacity: 0 !important;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease !important;
+  }
+  .b2b-benefit-item.is-visible-mobile {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
 
   .b2b-benefits-cta {
     padding: 0 40px 60px;
@@ -1140,8 +1152,35 @@
     });
   }
 
+  /* ---- Mobile: IntersectionObserver ---- */
+  function initMobile() {
+    /* Garante que o primeiro item e a primeira tela estão visíveis */
+    if (items[0]) items[0].classList.add('is-visible-mobile', 'is-active');
+    if (screens[0]) screens[0].classList.add('is-visible');
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var item  = entry.target;
+        var index = parseInt(item.getAttribute('data-index'), 10);
+
+        /* Anima entrada */
+        item.classList.add('is-visible-mobile');
+
+        /* Destaque e troca de imagem */
+        activate(index);
+      });
+    }, { threshold: 0.55 });
+
+    items.forEach(function (el) { observer.observe(el); });
+  }
+
+  if (window.innerWidth < 960) {
+    initMobile();
+  }
+
   function onScroll() {
-    /* Desativa lógica em mobile — layout empilhado */
+    /* Desativa lógica de translateY em mobile — usa IntersectionObserver */
     if (window.innerWidth < 960) {
       sticky.style.transform = '';
       return;
@@ -1167,9 +1206,15 @@
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
+  var mobileInitDone = false;
   window.addEventListener('resize', function () {
-    cacheMetrics();
-    onScroll();
+    if (window.innerWidth < 960) {
+      if (!mobileInitDone) { initMobile(); mobileInitDone = true; }
+    } else {
+      mobileInitDone = false;
+      cacheMetrics();
+      onScroll();
+    }
   }, { passive: true });
 
   /* Inicializa após o layout estar estável */
