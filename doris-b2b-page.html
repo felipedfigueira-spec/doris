@@ -201,26 +201,28 @@
   box-sizing: border-box;
 }
 
-/* Área de scroll — altura suficiente para passar pelos 3 itens */
+/* Área de scroll — 260vh para ter "room" para os 3 itens */
 .b2b-benefits-scroll {
   position: relative;
   height: 260vh;
+  background: #fff; /* garante que o espaço não apareça em branco */
 }
 
-/* Inner sticky — fica preso enquanto o container ainda é visível */
+/* Inner — posicionado absolutamente, o JS move via translateY */
 .b2b-benefits-sticky {
-  position: sticky;
-  top: 80px; /* ajuste se o header do Webflow tiver altura diferente */
-  height: calc(100vh - 80px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #fff;
   display: grid;
   grid-template-columns: 1fr 500px;
   gap: 80px;
   align-items: center;
   padding: 0 120px;
-  max-width: 1512px;
-  margin: 0 auto;
   box-sizing: border-box;
-  width: 100%;
+  will-change: transform;
 }
 
 /* Lista de benefícios */
@@ -648,6 +650,7 @@
     grid-template-columns: 1fr 400px;
     gap: 48px;
     padding: 0 60px;
+    height: 100vh;
   }
   .b2b-benefits-cta {
     padding: 0 60px 80px;
@@ -664,7 +667,7 @@
     max-width: 460px;
   }
 
-  /* Mobile: desativa sticky, tudo em coluna normal */
+  /* Mobile: desativa o scroll-pin, layout coluna normal */
   .b2b-benefits-scroll {
     height: auto;
   }
@@ -674,15 +677,16 @@
   }
 
   .b2b-benefits-sticky {
-    position: static;
-    height: auto;
+    position: static !important;
+    transform: none !important;
+    height: auto !important;
     grid-template-columns: 1fr;
     gap: 40px;
     padding: 40px 40px 0;
   }
 
   .b2b-benefit-item {
-    opacity: 1;
+    opacity: 1 !important;
   }
 
   .b2b-benefit-desc {
@@ -1097,16 +1101,18 @@
 <script>
 /* =============================================
    STICKY SCROLL — Benefícios
-   Ativa cada item conforme o usuário scrolla
-   pela seção .b2b-benefits-scroll
+   Abordagem: position:absolute + translateY via JS
+   Evita o bug do Webflow que quebra position:sticky
+   em containers com overflow oculto.
    ============================================= */
 (function () {
   var scrollArea = document.getElementById('b2b-scroll-area');
+  var sticky     = scrollArea ? scrollArea.querySelector('.b2b-benefits-sticky') : null;
   var items      = document.querySelectorAll('#b2b-tabs .b2b-benefit-item');
   var screens    = document.querySelectorAll('.b2b-screen');
   var progress   = document.getElementById('b2b-progress');
 
-  if (!scrollArea || !items.length) return;
+  if (!scrollArea || !sticky || !items.length) return;
 
   /* Lê a altura do header do Webflow dinamicamente */
   function getHeaderH() {
@@ -1114,12 +1120,18 @@
     return h ? h.offsetHeight : 80;
   }
 
-  var currentIndex = 0;
+  /* Distância do topo do documento até o início da scroll area */
+  var areaTop = 0;
+
+  function cacheMetrics() {
+    areaTop = scrollArea.getBoundingClientRect().top + window.scrollY;
+  }
+
+  var currentIndex = -1;
 
   function activate(index) {
-    if (index === currentIndex && items[index].classList.contains('is-active')) return;
+    if (index === currentIndex) return;
     currentIndex = index;
-
     items.forEach(function (el, i) {
       el.classList.toggle('is-active', i === index);
     });
@@ -1129,29 +1141,52 @@
   }
 
   function onScroll() {
-    /* Só aplica sticky scroll em viewports >= 960px */
-    if (window.innerWidth < 960) return;
+    /* Desativa lógica em mobile — layout empilhado */
+    if (window.innerWidth < 960) {
+      sticky.style.transform = '';
+      return;
+    }
 
-    var headerH   = getHeaderH();
-    var rect      = scrollArea.getBoundingClientRect();
-    var stickyH   = window.innerHeight - headerH;
-    var scrolled  = -(rect.top - headerH);
-    var total     = scrollArea.offsetHeight - stickyH;
-    var pct       = Math.max(0, Math.min(1, scrolled / total));
+    var headerH      = getHeaderH();
+    var stickyH      = sticky.offsetHeight;            /* ≈ 100vh */
+    var maxTranslate = scrollArea.offsetHeight - stickyH;
+    var raw          = window.scrollY - areaTop + headerH;
+    var clampedY     = Math.max(0, Math.min(maxTranslate, raw));
 
-    /* Barra de progresso */
+    /* Move o painel para que fique sempre visível no viewport */
+    sticky.style.transform = 'translateY(' + clampedY + 'px)';
+
+    var pct = maxTranslate > 0 ? clampedY / maxTranslate : 0;
+
+    /* Barra de progresso vertical */
     if (progress) progress.style.height = (pct * 100) + '%';
 
-    /* Zona ativa: divide o scroll em 3 partes iguais */
+    /* Zona ativa: divide o scroll em 3 faixas iguais */
     var zone = Math.min(items.length - 1, Math.floor(pct * items.length));
     activate(zone);
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll, { passive: true });
+  window.addEventListener('resize', function () {
+    cacheMetrics();
+    onScroll();
+  }, { passive: true });
 
-  /* Garante estado inicial correto */
-  setTimeout(onScroll, 50);
+  /* Inicializa após o layout estar estável */
+  if (document.readyState === 'complete') {
+    cacheMetrics();
+    onScroll();
+  } else {
+    window.addEventListener('load', function () {
+      cacheMetrics();
+      onScroll();
+    });
+  }
+  /* Fallback para garantir métricas corretas mesmo com fontes carregando */
+  setTimeout(function () {
+    cacheMetrics();
+    onScroll();
+  }, 300);
 })();
 </script>
 
