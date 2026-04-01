@@ -88,7 +88,8 @@
 .b2b-hero {
   position: relative;
   background: #fff;
-  overflow: hidden;
+  overflow-x: clip; /* evita scroll horizontal do blob */
+  overflow-y: visible; /* permite o mockup emergir abaixo da seção */
   padding-bottom: 0;
   min-height: 820px;
 }
