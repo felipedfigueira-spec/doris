@@ -701,9 +701,9 @@
     order: -1; /* Imagem aparece acima da lista no mobile */
   }
 
-  /* Crossfade de telas também no mobile */
-  .b2b-screen { opacity: 0; transform: none; }
-  .b2b-screen.is-visible { opacity: 1; }
+  /* Mobile: show/hide simples (evita conflito com position:absolute) */
+  .b2b-screen { display: none; opacity: 1; transform: none; position: static; width: 100%; height: 100%; }
+  .b2b-screen.is-visible { display: block; }
 
   /* Animação de entrada dos benefícios no mobile */
   .b2b-benefit-item {
@@ -872,14 +872,21 @@
             Tela 1 → Look Building / catálogo
             Tela 2 → Virtual Try-On
           -->
+          <!--
+            ATENÇÃO: substitua os src abaixo pelos links reais das telas do app.
+            Faça upload no Webflow Assets e cole as URLs aqui.
+            Tela 0 → Feed / descoberta
+            Tela 1 → Look Building / catálogo
+            Tela 2 → Virtual Try-On
+          -->
           <img class="b2b-screen is-visible" data-screen="0"
-            src="https://placehold.co/500x900/f5f0eb/1e1e1e?text=Tela+App+1"
+            src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69cd666d74da0c276bf1a8cd_Design%20sem%20nome%20(8).png"
             alt="Doris – descoberta de produtos" loading="eager" />
           <img class="b2b-screen" data-screen="1"
-            src="https://placehold.co/500x900/f0ebf5/1e1e1e?text=Tela+App+2"
+            src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69cd666d4132a10e41ff0589_Design%20sem%20nome%20(7).png"
             alt="Doris – navegação que converte" loading="lazy" />
           <img class="b2b-screen" data-screen="2"
-            src="https://placehold.co/500x900/ebf5f0/1e1e1e?text=Tela+App+3"
+            src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69cd666d3724015b4fac5ee4_Design%20sem%20nome%20(9).png"
             alt="Doris – virtual try-on" loading="lazy" />
         </div>
 
