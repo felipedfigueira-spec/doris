@@ -27,3 +27,7 @@ Thumbs.db
 .aiox-core/local/
 .claude/settings.local.json
 .aiox/install-log.txt
+
+# Large files (>100MB — GitHub limit)
+*.pptx
+*.ppt
