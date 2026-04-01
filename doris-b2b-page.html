@@ -461,35 +461,72 @@
 .b2b-logos {
   padding: 60px 0 80px;
   overflow: hidden;
+  position: relative;
 }
 
+/* Fade nas bordas */
+.b2b-logos::before,
+.b2b-logos::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 160px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+.b2b-logos::before {
+  left: 0;
+  background: linear-gradient(to right, #fff 30%, transparent);
+}
+.b2b-logos::after {
+  right: 0;
+  background: linear-gradient(to left, #fff 30%, transparent);
+}
+
+/* Container que anima — contém 2 cópias do track */
+.b2b-logos-inner {
+  display: flex;
+  width: max-content;
+  animation: logos-ticker 28s linear infinite;
+}
+
+.b2b-logos-inner:hover {
+  animation-play-state: paused;
+}
+
+@keyframes logos-ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Cada faixa de logos */
 .b2b-logos-track {
   display: flex;
   align-items: center;
   gap: 32px;
-  position: relative;
-  height: 209px;
+  padding: 0 16px;
+  flex-shrink: 0;
 }
 
 .b2b-logo-pill {
   background: #efefef;
   border-radius: 50%;
-  width: 200px;
-  height: 200px;
+  width: 180px;
+  height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   font-family: 'Manrope', sans-serif;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 15px;
   color: #969696;
-  /* Substitua pelo logo real de cada parceiro */
 }
 
 .b2b-logo-pill img {
-  max-width: 120px;
-  max-height: 60px;
+  max-width: 110px;
+  max-height: 55px;
   object-fit: contain;
 }
 
@@ -978,14 +1015,25 @@
        Substitua os placeholders pelos logos reais
        ====================================================== -->
   <section class="b2b-logos">
-    <div class="b2b-container">
+    <div class="b2b-logos-inner">
+      <!-- Track original -->
       <div class="b2b-logos-track">
-        <!-- [LOGOS: adicione as imagens dos parceiros aqui] -->
+        <!-- [LOGOS: substitua pelo <img> de cada parceiro dentro do .b2b-logo-pill] -->
         <div class="b2b-logo-pill">Logo 1</div>
         <div class="b2b-logo-pill">Logo 2</div>
         <div class="b2b-logo-pill">Logo 3</div>
         <div class="b2b-logo-pill">Logo 4</div>
         <div class="b2b-logo-pill">Logo 5</div>
+        <div class="b2b-logo-pill">Logo 6</div>
+      </div>
+      <!-- Cópia para loop seamless (invisível para leitores de tela) -->
+      <div class="b2b-logos-track" aria-hidden="true">
+        <div class="b2b-logo-pill">Logo 1</div>
+        <div class="b2b-logo-pill">Logo 2</div>
+        <div class="b2b-logo-pill">Logo 3</div>
+        <div class="b2b-logo-pill">Logo 4</div>
+        <div class="b2b-logo-pill">Logo 5</div>
+        <div class="b2b-logo-pill">Logo 6</div>
       </div>
     </div>
   </section>
