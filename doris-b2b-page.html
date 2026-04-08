@@ -46,7 +46,6 @@
 .b2b-wrap {
   font-family: 'Manrope', sans-serif;
   color: #1e1e1e;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -111,6 +110,7 @@
   );
   pointer-events: none;
   filter: blur(60px);
+  z-index: 1;
 }
 
 .b2b-hero-content {
@@ -150,6 +150,7 @@
 /* Mockup iPhone */
 .b2b-hero-mockup {
   position: relative;
+  z-index: 2;
   margin: 0 auto;
   max-width: 680px;
   left: -80px;
@@ -160,6 +161,7 @@
   width: 100%;
   height: auto;
   display: block;
+  mix-blend-mode: multiply;
 }
 
 /* =============================================
@@ -208,9 +210,9 @@
   background: #fff; /* garante que o espaço não apareça em branco */
 }
 
-/* Inner — posicionado absolutamente, o JS move via translateY */
+/* Inner — sticky nativo via CSS */
 .b2b-benefits-sticky {
-  position: absolute;
+  position: sticky;
   top: 0;
   left: 0;
   width: 100%;
@@ -222,7 +224,6 @@
   align-items: center;
   padding: 0 120px;
   box-sizing: border-box;
-  will-change: transform;
 }
 
 /* Lista de benefícios */
@@ -488,11 +489,11 @@
 .b2b-logos-inner {
   display: flex;
   width: max-content;
-  animation: logos-ticker 28s linear infinite;
+  animation: logos-ticker 16s linear infinite;
 }
 
 .b2b-logos-inner:hover {
-  animation-play-state: paused;
+  animation-play-state: running;
 }
 
 @keyframes logos-ticker {
@@ -781,6 +782,10 @@
     min-height: auto;
   }
 
+  .b2b-hero-content {
+    padding-top: 48px;
+  }
+
   .b2b-hero h1 {
     font-size: 36px;
     margin-bottom: 28px;
@@ -834,7 +839,7 @@
       <!-- [IMAGEM: mockup iPhone com mão segurando o celular com o app Doris aberto] -->
       <!-- Exemplo: <img src="[URL DO ASSET NO WEBFLOW]" alt="App Doris – Virtual Try-On" /> -->
       <img
-        src="https://www.figma.com/api/mcp/asset/82677d71-d0ab-481c-be2a-76881549a55f"
+        src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69d41d1241ed615fbe9206a2_mao%20hero%20webp.webp"
         alt="App Doris – Virtual Try-On"
         loading="eager"
       />
@@ -982,7 +987,7 @@
           <!-- Exemplo: <img class="b2b-bento-app-image" src="[URL DO ASSET NO WEBFLOW]" alt="App Doris" loading="lazy" /> -->
           <img
             class="b2b-bento-app-image"
-            src="https://www.figma.com/api/mcp/asset/b65df3ea-6705-454c-a003-1594b34a3296"
+            src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69d53cbf57cb19c4f20d662c_fecaldeira%20(1).webp"
             alt="App Doris – Look Building e Virtual Try-On"
             loading="lazy"
           />
@@ -1005,22 +1010,21 @@
     <div class="b2b-logos-inner">
       <!-- Track original -->
       <div class="b2b-logos-track">
-        <!-- [LOGOS: substitua pelo <img> de cada parceiro dentro do .b2b-logo-pill] -->
-        <div class="b2b-logo-pill">Logo 1</div>
-        <div class="b2b-logo-pill">Logo 2</div>
-        <div class="b2b-logo-pill">Logo 3</div>
-        <div class="b2b-logo-pill">Logo 4</div>
-        <div class="b2b-logo-pill">Logo 5</div>
-        <div class="b2b-logo-pill">Logo 6</div>
+        <div class="b2b-logo-pill"><img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69d417a9d95ab5b6728f9072_hering.webp" alt="Hering"></div>
+        <div class="b2b-logo-pill"><img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69d417a88c8401f3afc00ee9_riachuelo.webp" alt="Riachuelo"></div>
+        <div class="b2b-logo-pill"><img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69d417a83b9345db140dc865_osklen.webp" alt="Osklen"></div>
+        <div class="b2b-logo-pill"><img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69d417a89c8843926e849bc2_adidas.webp" alt="Adidas"></div>
+        <div class="b2b-logo-pill"><img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69d417a83b9345db140dc84f_nike.webp" alt="Nike"></div>
+        <div class="b2b-logo-pill"><img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69d417a8a9ba14e2e45ad900_insider.webp" alt="Insider"></div>
       </div>
       <!-- Cópia para loop seamless (invisível para leitores de tela) -->
       <div class="b2b-logos-track" aria-hidden="true">
-        <div class="b2b-logo-pill">Logo 1</div>
-        <div class="b2b-logo-pill">Logo 2</div>
-        <div class="b2b-logo-pill">Logo 3</div>
-        <div class="b2b-logo-pill">Logo 4</div>
-        <div class="b2b-logo-pill">Logo 5</div>
-        <div class="b2b-logo-pill">Logo 6</div>
+        <div class="b2b-logo-pill"><img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69d417a9d95ab5b6728f9072_hering.webp" alt=""></div>
+        <div class="b2b-logo-pill"><img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69d417a88c8401f3afc00ee9_riachuelo.webp" alt=""></div>
+        <div class="b2b-logo-pill"><img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69d417a83b9345db140dc865_osklen.webp" alt=""></div>
+        <div class="b2b-logo-pill"><img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69d417a89c8843926e849bc2_adidas.webp" alt=""></div>
+        <div class="b2b-logo-pill"><img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69d417a83b9345db140dc84f_nike.webp" alt=""></div>
+        <div class="b2b-logo-pill"><img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69d417a8a9ba14e2e45ad900_insider.webp" alt=""></div>
       </div>
     </div>
   </section>
@@ -1175,17 +1179,15 @@
 
   if (!scrollArea || !sticky || !items.length) return;
 
-  /* Lê a altura do header do Webflow dinamicamente */
-  function getHeaderH() {
-    var h = document.querySelector('header, nav, [data-wf-type="navbar"]');
-    return h ? h.offsetHeight : 80;
-  }
-
-  /* Distância do topo do documento até o início da scroll area */
-  var areaTop = 0;
+  /* Métricas cacheadas — relidas só em resize/load */
+  var areaTop    = 0;
+  var areaH      = 0;
+  var stickyH    = 0;
 
   function cacheMetrics() {
     areaTop = scrollArea.getBoundingClientRect().top + window.scrollY;
+    areaH   = scrollArea.offsetHeight;
+    stickyH = sticky.offsetHeight;
   }
 
   var currentIndex = -1;
@@ -1203,7 +1205,6 @@
 
   /* ---- Mobile: IntersectionObserver ---- */
   function initMobile() {
-    /* Garante que o primeiro item e a primeira tela estão visíveis */
     if (items[0]) items[0].classList.add('is-visible-mobile', 'is-active');
     if (screens[0]) screens[0].classList.add('is-visible');
 
@@ -1212,11 +1213,7 @@
         if (!entry.isIntersecting) return;
         var item  = entry.target;
         var index = parseInt(item.getAttribute('data-index'), 10);
-
-        /* Anima entrada */
         item.classList.add('is-visible-mobile');
-
-        /* Destaque e troca de imagem */
         activate(index);
       });
     }, { threshold: 0.55 });
@@ -1228,33 +1225,32 @@
     initMobile();
   }
 
-  function onScroll() {
-    /* Desativa lógica de translateY em mobile — usa IntersectionObserver */
-    if (window.innerWidth < 960) {
-      sticky.style.transform = '';
-      return;
-    }
+  /* ---- Desktop: scroll handler só para zona ativa (sem translateY) ---- */
+  var rafPending = false;
 
-    var headerH      = getHeaderH();
-    var stickyH      = sticky.offsetHeight;            /* ≈ 100vh */
-    var maxTranslate = scrollArea.offsetHeight - stickyH;
-    var raw          = window.scrollY - areaTop + headerH;
-    var clampedY     = Math.max(0, Math.min(maxTranslate, raw));
+  function updateZone() {
+    rafPending = false;
+    if (window.innerWidth < 960) return;
 
-    /* Move o painel para que fique sempre visível no viewport */
-    sticky.style.transform = 'translateY(' + clampedY + 'px)';
+    var scrolled = window.scrollY - areaTop;
+    var maxScroll = Math.max(1, areaH - stickyH);
+    var pct  = Math.max(0, Math.min(1, scrolled / maxScroll));
 
-    var pct = maxTranslate > 0 ? clampedY / maxTranslate : 0;
-
-    /* Barra de progresso vertical */
     if (progress) progress.style.height = (pct * 100) + '%';
 
-    /* Zona ativa: divide o scroll em 3 faixas iguais */
     var zone = Math.min(items.length - 1, Math.floor(pct * items.length));
     activate(zone);
   }
 
+  function onScroll() {
+    if (!rafPending) {
+      rafPending = true;
+      requestAnimationFrame(updateZone);
+    }
+  }
+
   window.addEventListener('scroll', onScroll, { passive: true });
+
   var mobileInitDone = false;
   window.addEventListener('resize', function () {
     if (window.innerWidth < 960) {
@@ -1262,25 +1258,22 @@
     } else {
       mobileInitDone = false;
       cacheMetrics();
-      onScroll();
+      updateZone();
     }
   }, { passive: true });
 
-  /* Inicializa após o layout estar estável */
-  if (document.readyState === 'complete') {
+  function init() {
     cacheMetrics();
-    onScroll();
-  } else {
-    window.addEventListener('load', function () {
-      cacheMetrics();
-      onScroll();
-    });
+    activate(0);
+    updateZone();
   }
-  /* Fallback para garantir métricas corretas mesmo com fontes carregando */
-  setTimeout(function () {
-    cacheMetrics();
-    onScroll();
-  }, 300);
+
+  if (document.readyState === 'complete') {
+    init();
+  } else {
+    window.addEventListener('load', init);
+  }
+  setTimeout(init, 300);
 })();
 </script>
 
