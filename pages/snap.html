@@ -12,6 +12,8 @@
 <body>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
 /* =============================================
    RESET & TOKENS
    ============================================= */
@@ -105,7 +107,7 @@ img, video { display: block; max-width: 100%; height: auto; }
   background: var(--black);
   color: var(--white);
   font-family: var(--font);
-  font-weight: 800;
+  font-weight: 600;
   font-size: 15px;
   letter-spacing: -0.01em;
   padding: 12px 28px;
@@ -233,7 +235,7 @@ img, video { display: block; max-width: 100%; height: auto; }
 .lp-section-title {
   font-family: var(--font);
   font-weight: 800;
-  font-size: clamp(36px, 4.5vw, 64px);
+  font-size: clamp(36px, 4.5vw, 56px);
   line-height: 1.05;
   letter-spacing: -0.04em;
   color: var(--black);
@@ -430,9 +432,10 @@ img, video { display: block; max-width: 100%; height: auto; }
 }
 
 .lp-screenshots-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  justify-content: center;
   gap: 16px;
+  padding: 0 120px 16px;
 }
 
 .lp-screenshot-card {
@@ -445,6 +448,24 @@ img, video { display: block; max-width: 100%; height: auto; }
   justify-content: center;
   color: var(--silver);
   font-size: 13px;
+  flex: 0 0 260px;
+}
+
+.lp-screenshots-dots {
+  justify-content: center;
+  gap: 6px;
+  margin-top: 16px;
+  display: flex;
+}
+.lp-screenshots-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--silver);
+  display: block;
+}
+.lp-screenshots-dots span:first-child {
+  background: var(--black); /* atualizado via JS no mobile */
 }
 
 .lp-screenshot-card img,
@@ -695,7 +716,9 @@ img, video { display: block; max-width: 100%; height: auto; }
   .lp-container    { padding: 0 40px; }
   .lp-nav-inner    { padding: 0 40px; }
   .lp-steps-grid   { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
-  .lp-screenshots-grid { grid-template-columns: repeat(2, 1fr); }
+  .lp-screenshots-grid { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; justify-content: flex-start; padding: 0 40px 16px; }
+  .lp-screenshots-grid::-webkit-scrollbar { display: none; }
+  .lp-screenshot-card  { flex: 0 0 55vw; scroll-snap-align: start; }
 }
 
 @media (max-width: 640px) {
@@ -705,7 +728,9 @@ img, video { display: block; max-width: 100%; height: auto; }
   .lp-upload       { padding: 0 0 64px; }
   .lp-screenshots  { padding: 64px 0; }
   .lp-cta-band     { padding: 64px 0; }
-  .lp-screenshots-grid { grid-template-columns: 1fr; max-width: 280px; margin: 0 auto; }
+  .lp-nav-inner        { justify-content: center; }
+  .lp-screenshots-grid { padding: 0 24px 16px; gap: 12px; }
+  .lp-screenshot-card  { flex: 0 0 75vw; scroll-snap-align: start; }
   .lp-modal        { padding: 32px 24px; }
   .lp-store-btns   { flex-direction: column; align-items: stretch; }
   .lp-store-btn    { justify-content: center; }
@@ -739,7 +764,6 @@ img, video { display: block; max-width: 100%; height: auto; }
         style="width:120px;height:120px;object-fit:contain;"
       />
     </a>
-    <button class="lp-btn" data-modal-trigger data-source="navbar">Baixar grátis</button>
   </div>
 </nav>
 
@@ -765,16 +789,9 @@ img, video { display: block; max-width: 100%; height: auto; }
 
     <!-- Mockup: substitua pelo vídeo ou imagem real -->
     <div class="lp-hero-mockup">
-      <!--
-        VÍDEO (recomendado):
-        <video autoplay muted loop playsinline>
-          <source src="[URL_VIDEO_SNAP]" type="video/mp4" />
-        </video>
-
-        IMAGEM:
-        <img src="[URL_MOCKUP_SNAP]" alt="App Doris Snap" />
-      -->
-      <div class="lp-mockup-placeholder">[mockup Snap]</div>
+      <video autoplay muted loop playsinline>
+        <source src="../assets/videos/snap-story.mp4" type="video/mp4" />
+      </video>
     </div>
   </div>
 </section>
@@ -797,8 +814,7 @@ img, video { display: block; max-width: 100%; height: auto; }
     <div class="lp-steps-grid">
       <div class="lp-step-card fade-up">
         <div class="lp-step-screen">
-          <!-- <img src="[URL_TELA_SNAP_CAMERA]" alt="Doris Snap — câmera apontada para um look" loading="lazy" /> -->
-          [tela — câmera]
+          <img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69dfa5bb231c0cbb5810978a_passopasso1.webp" alt="Doris Snap — câmera apontada para um look" loading="lazy" />
         </div>
         <div class="lp-step-body">
           <span class="lp-step-number">01</span>
@@ -808,8 +824,7 @@ img, video { display: block; max-width: 100%; height: auto; }
       </div>
       <div class="lp-step-card fade-up">
         <div class="lp-step-screen">
-          <!-- <img src="[URL_TELA_SNAP_RESULTADO]" alt="Doris Snap — resultado da busca visual" loading="lazy" /> -->
-          [tela — resultado IA]
+          <img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69dfa55a388b131e66e7f356_passopasso2%20(1).webp" alt="Doris Snap — resultado da busca visual" loading="lazy" />
         </div>
         <div class="lp-step-body">
           <span class="lp-step-number">02</span>
@@ -819,8 +834,7 @@ img, video { display: block; max-width: 100%; height: auto; }
       </div>
       <div class="lp-step-card fade-up">
         <div class="lp-step-screen">
-          <!-- <img src="[URL_TELA_SNAP_PRODUTO]" alt="Doris Snap — onde comprar o produto" loading="lazy" /> -->
-          [tela — onde comprar]
+          <img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69dfa5bb65341750796cb21f_passopasso3%20(1).webp" alt="Doris Snap — onde comprar o produto" loading="lazy" />
         </div>
         <div class="lp-step-body">
           <span class="lp-step-number">03</span>
@@ -884,20 +898,23 @@ img, video { display: block; max-width: 100%; height: auto; }
      ============================================================ -->
 <section class="lp-screenshots" aria-labelledby="snap-screens-h2">
   <div class="lp-container">
-    <h2 class="lp-section-title fade-up" id="snap-screens-h2">Veja na prática</h2>
-    <p class="lp-screenshots-sub fade-up">Do look ao produto em segundos.</p>
+    <h2 class="lp-section-title fade-up" id="snap-screens-h2">Encontre qualquer look que você amar</h2>
+    <p class="lp-screenshots-sub fade-up">Na vitrine, no feed ou na sua série favorita — a Doris encontra.</p>
+  </div>
 
-    <div class="lp-screenshots-grid">
-      <!--
-        Substitua por imagens reais (proporção 9:16):
-        <div class="lp-screenshot-card">
-          <img src="[URL]" alt="Snap — câmera apontada para um look" loading="lazy" />
-        </div>
-      -->
-      <div class="lp-screenshot-card">[tela 1 — câmera]</div>
-      <div class="lp-screenshot-card">[tela 2 — resultado]</div>
-      <div class="lp-screenshot-card">[tela 3 — produto]</div>
+  <div class="lp-screenshots-grid">
+    <div class="lp-screenshot-card">
+      <img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69dfbf9eb16f834f9b0c2971_serie.webp" alt="Snap — look de série" loading="lazy" />
     </div>
+    <div class="lp-screenshot-card">
+      <img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69dfbf9e0d4573778dcff285_print.webp" alt="Snap — print do Instagram" loading="lazy" />
+    </div>
+    <div class="lp-screenshot-card">
+      <img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69dfbf9e23b0f4c545d59852_vitrine.webp" alt="Snap — foto de vitrine" loading="lazy" />
+    </div>
+  </div>
+  <div class="lp-screenshots-dots" aria-hidden="true">
+    <span></span><span></span><span></span>
   </div>
 </section>
 
@@ -907,7 +924,7 @@ img, video { display: block; max-width: 100%; height: auto; }
      ============================================================ -->
 <section class="lp-cta-band" aria-label="Download">
   <div class="lp-container">
-    <h2 class="fade-up">Teste já grátis</h2>
+    <h2 class="fade-up">Teste já</h2>
     <button class="lp-btn lp-btn-lg" data-modal-trigger data-source="cta_band">Baixar grátis</button>
   </div>
 </section>
@@ -1259,7 +1276,25 @@ img, video { display: block; max-width: 100%; height: auto; }
     if (e.key === 'Escape' && resOverlay.classList.contains('is-open')) closeResultModal();
   });
 
-  /* 7. Fade-up — IntersectionObserver ----------------------- */
+  /* 7. Carrossel dots ---------------------------------------- */
+  var screensGrid = document.querySelector('.lp-screenshots-grid');
+  var screensDots = document.querySelectorAll('.lp-screenshots-dots span');
+  if (screensGrid && screensDots.length && 'IntersectionObserver' in window) {
+    var cards = screensGrid.querySelectorAll('.lp-screenshot-card');
+    var dotsIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var idx = Array.prototype.indexOf.call(cards, entry.target);
+          screensDots.forEach(function (d, i) {
+            d.style.background = i === idx ? 'var(--black)' : 'var(--silver)';
+          });
+        }
+      });
+    }, { root: screensGrid, threshold: 0.5 });
+    cards.forEach(function (c) { dotsIO.observe(c); });
+  }
+
+  /* 8. Fade-up — IntersectionObserver ----------------------- */
   var fadeEls = document.querySelectorAll('.fade-up');
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
