@@ -32,6 +32,8 @@
 <body>
 
 <style>
+html, body { margin: 0; padding: 0; }
+
 /* =============================================
    RESET & BASE
    ============================================= */
@@ -260,6 +262,7 @@
   padding: 32px 0 32px 32px;
   opacity: 0.3;
   transition: opacity 0.45s ease;
+  cursor: pointer;
 }
 
 .b2b-benefit-item.is-active {
@@ -718,13 +721,16 @@
     position: static !important;
     transform: none !important;
     height: auto !important;
-    grid-template-columns: 1fr;
-    gap: 40px;
-    padding: 40px 40px 0;
+    display: flex !important;
+    flex-direction: column;
+    gap: 72px;
+    padding: 32px 24px 0;
   }
 
-  .b2b-benefit-item {
-    opacity: 1 !important;
+  /* Oculta área de imagem compartilhada e barra de progresso */
+  .b2b-benefits-image-wrap,
+  .b2b-progress-track {
+    display: none !important;
   }
 
   .b2b-benefit-desc {
@@ -732,35 +738,44 @@
     opacity: 1 !important;
   }
 
-  .b2b-benefits-image-wrap {
-    max-width: 480px;
-    height: 300px;
-    margin: 0 auto;
-    order: -1; /* Imagem aparece acima da lista no mobile */
-  }
-
-  /* Mobile: show/hide simples (evita conflito com position:absolute) */
-  .b2b-screen { display: none; opacity: 1; transform: none; position: static; width: 100%; height: 100%; }
-  .b2b-screen.is-visible { display: block; }
-
-  /* Animação de entrada dos benefícios no mobile */
+  /* Card editorial: imagem + texto integrados */
   .b2b-benefit-item {
-    opacity: 0 !important;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease !important;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+    background: #efefef;
+    border-radius: 20px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
   }
   .b2b-benefit-item.is-visible-mobile {
     opacity: 1 !important;
     transform: translateY(0) !important;
   }
 
+  /* Imagem mobile dentro do card */
+  .b2b-benefit-mobile-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Texto do card */
+  .b2b-benefit-inner {
+    padding: 24px 24px 32px;
+  }
+
   .b2b-benefits-cta {
-    padding: 0 40px 60px;
+    padding: 0 24px 60px;
   }
 
   .b2b-bento {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
+    gap: 40px;
   }
 
   .b2b-bento-card.b2b-full {
@@ -805,8 +820,216 @@
   }
 
   .b2b-bento-card {
-    padding: 36px 32px;
+    padding: 36px 28px 40px;
+    gap: 16px;
   }
+
+  /* ---- Reveal cards: estado inicial (só ativo quando JS inicializou) ---- */
+  .b2b-bento[data-reveal-init] .b2b-bento-card .b2b-bento-icon,
+  .b2b-bento[data-reveal-init] .b2b-bento-card .b2b-bento-title,
+  .b2b-bento[data-reveal-init] .b2b-bento-card .b2b-bento-desc {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    will-change: opacity, transform;
+  }
+  .b2b-bento[data-reveal-init] .b2b-bento-card .b2b-bento-icon  { transition-delay: 0ms; }
+  .b2b-bento[data-reveal-init] .b2b-bento-card .b2b-bento-title { transition-delay: 150ms; }
+  .b2b-bento[data-reveal-init] .b2b-bento-card .b2b-bento-desc  { transition-delay: 300ms; }
+
+  /* Linha divisória */
+  .b2b-reveal-line {
+    height: 1px;
+    background: #c8c8c8;
+    transform-origin: left center;
+    opacity: 0;
+    transform: scaleX(0);
+    transition: transform 0.7s ease-in-out 420ms, opacity 0.2s ease-out 420ms;
+    will-change: transform, opacity;
+    margin: 4px 0;
+  }
+  .b2b-bento[data-reveal-init] .b2b-bento-app-image {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.65s ease-out 620ms, transform 0.65s ease-out 620ms;
+    will-change: opacity, transform;
+  }
+
+  /* Estado revelado */
+  .b2b-bento-card.is-revealed .b2b-bento-icon,
+  .b2b-bento-card.is-revealed .b2b-bento-title,
+  .b2b-bento-card.is-revealed .b2b-bento-desc {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+  .b2b-bento-card.is-revealed .b2b-reveal-line {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  .b2b-bento-card.is-revealed .b2b-bento-app-image {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  /* Full card: flex coluna no mobile para a linha divisória funcionar */
+  .b2b-bento-card.b2b-full {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0;
+  }
+  .b2b-bento-card.b2b-full .b2b-bento-text {
+    padding-top: 0;
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+  }
+  .b2b-bento-app-image {
+    width: 100%;
+    max-height: 340px;
+    border-radius: 12px;
+  }
+
+  /* Ícone levemente menor */
+  .b2b-bento-icon { width: 48px; height: 48px; }
+  .b2b-bento-icon img { width: 48px; height: 48px; }
+}
+
+/* Elementos exclusivos de mobile: ocultos em desktop */
+@media (min-width: 641px) {
+  .b2b-benefit-mobile-img { display: none; }
+  .b2b-reveal-line { display: none; }
+}
+
+/* =============================================
+   NAVBAR — replicado do B2C (doris.ai)
+   ============================================= */
+.b2b-nav-outer {
+  position: relative;
+  z-index: 9999;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: hsla(0, 0%, 93.73%, 1);
+}
+
+.b2b-nav {
+  display: flex;
+  width: 85%;
+  height: 90px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.b2b-nav-logo {
+  display: flex;
+  width: 140px;
+  height: 24px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.b2b-nav-logo img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.b2b-nav-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.b2b-nav-cta {
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: #000;
+  color: #fff;
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.b2b-nav-ham {
+  display: flex;
+  width: 46px;
+  height: 46px;
+  margin-left: 40px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url('https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/6970ce034d3dd67b531e39bd_menu-icon.png');
+  background-position: 50% 50%;
+  background-size: 46px;
+  background-repeat: no-repeat;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.b2b-nav-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 220px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  padding: 8px 0;
+  z-index: 10000;
+}
+
+.b2b-nav-dropdown.open {
+  display: block;
+}
+
+.b2b-nav-dropdown a {
+  display: block;
+  padding: 12px 20px;
+  color: #1e1e1e;
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.b2b-nav-dropdown a:hover {
+  background-color: #f5f5f5;
+}
+
+.b2b-nav-dropdown a.b2b-nav-dropdown-cta {
+  margin: 8px 12px 4px;
+  padding: 10px 20px;
+  background: #000;
+  color: #fff;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.b2b-nav-dropdown a.b2b-nav-dropdown-cta:hover {
+  background: #222;
+}
+
+.b2b-nav-ham-wrap {
+  position: relative;
+}
+
+@media screen and (max-width: 991px) {
+  .b2b-nav { width: 90%; }
+}
+
+@media screen and (max-width: 479px) {
+  .b2b-nav-outer { z-index: 99999; }
+  .b2b-nav { width: 90%; height: 75px; }
+  .b2b-nav-logo { width: 95px; }
+  .b2b-nav-cta { padding: 8px 14px; }
+  .b2b-nav-ham { width: 36px; height: 36px; margin-left: 20px; background-size: 36px; }
 }
 </style>
 
@@ -814,6 +1037,30 @@
      INÍCIO DO CONTEÚDO — cola este bloco inteiro no Embed do Webflow
      ============================================================ -->
 <div class="b2b-wrap">
+
+  <!-- ======================================================
+       NAVBAR
+       ====================================================== -->
+  <div class="b2b-nav-outer">
+    <div class="b2b-nav">
+      <a href="https://doris.ai/" class="b2b-nav-logo">
+        <img src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/6970cd667c401f42aa54addf_Logo-Doris.png" alt="Doris" />
+      </a>
+      <div class="b2b-nav-actions">
+        <a href="https://doris.ai/contato" class="b2b-nav-cta">Quero ser parceiro</a>
+        <div class="b2b-nav-ham-wrap">
+          <a class="b2b-nav-ham" aria-label="Menu" id="b2b-ham-btn"></a>
+          <div class="b2b-nav-dropdown" id="b2b-nav-dropdown">
+            <a href="https://doris.ai/">← Home</a>
+            <a href="#beneficios">Benefícios</a>
+            <a href="#funcionalidades">Funcionalidades</a>
+            <a href="#faq">FAQ</a>
+            <a href="https://doris.ai/contato" class="b2b-nav-dropdown-cta">Quero ser parceiro</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ======================================================
        SEÇÃO 1 — HERO
@@ -830,7 +1077,7 @@
       </p>
 
       <div class="b2b-hero-cta-wrap">
-        <a href="#parceiro" class="b2b-btn">Quero ser parceiro</a>
+        <a href="https://doris.ai/contato" class="b2b-btn">Quero ser parceiro</a>
       </div>
     </div>
 
@@ -850,7 +1097,7 @@
   <!-- ======================================================
        SEÇÃO 2 — BENEFÍCIOS (sticky scroll)
        ====================================================== -->
-  <section class="b2b-benefits">
+  <section class="b2b-benefits" id="beneficios">
 
     <!-- Header — scroll normal acima do sticky -->
     <div class="b2b-benefits-header">
@@ -869,6 +1116,9 @@
           </div>
 
           <div class="b2b-benefit-item is-active" data-index="0">
+            <img class="b2b-benefit-mobile-img"
+              src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69cd666d74da0c276bf1a8cd_Design%20sem%20nome%20(8).png"
+              alt="Doris – descoberta de produtos" loading="eager" />
             <div class="b2b-benefit-inner">
               <p class="b2b-benefit-title">Transforme descoberta em compra realizada</p>
               <p class="b2b-benefit-desc">
@@ -879,6 +1129,9 @@
           </div>
 
           <div class="b2b-benefit-item" data-index="1">
+            <img class="b2b-benefit-mobile-img"
+              src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69cd666d4132a10e41ff0589_Design%20sem%20nome%20(7).png"
+              alt="Doris – navegação que converte" loading="lazy" />
             <div class="b2b-benefit-inner">
               <p class="b2b-benefit-title">Navegação que converte</p>
               <p class="b2b-benefit-desc">
@@ -889,6 +1142,9 @@
           </div>
 
           <div class="b2b-benefit-item" data-index="2">
+            <img class="b2b-benefit-mobile-img"
+              src="https://cdn.prod.website-files.com/6965007ad10c8371f29db3ba/69cd666d3724015b4fac5ee4_Design%20sem%20nome%20(9).png"
+              alt="Doris – virtual try-on" loading="lazy" />
             <div class="b2b-benefit-inner">
               <p class="b2b-benefit-title">Reduza devoluções antes do checkout</p>
               <p class="b2b-benefit-desc">
@@ -938,7 +1194,7 @@
     <div class="b2b-benefits-spacer"></div>
 
     <div class="b2b-benefits-cta">
-      <a href="#parceiro" class="b2b-btn">Quero ser parceiro</a>
+      <a href="https://doris.ai/contato" class="b2b-btn">Quero ser parceiro</a>
     </div>
 
   </section>
@@ -947,7 +1203,7 @@
   <!-- ======================================================
        SEÇÃO 3 — FEATURES BENTO
        ====================================================== -->
-  <section class="b2b-features">
+  <section class="b2b-features" id="funcionalidades">
     <div class="b2b-container">
       <p class="b2b-features-subtitle">Sem complicação. Sem risco. Só resultados.</p>
 
@@ -983,6 +1239,8 @@
             </p>
           </div>
 
+          <div class="b2b-reveal-line" aria-hidden="true"></div>
+
           <!-- [IMAGEM: screenshot do app Doris mostrando o virtual try-on / look building] -->
           <!-- Exemplo: <img class="b2b-bento-app-image" src="[URL DO ASSET NO WEBFLOW]" alt="App Doris" loading="lazy" /> -->
           <img
@@ -996,7 +1254,7 @@
       </div><!-- /bento -->
 
       <div class="b2b-features-cta">
-        <a href="#parceiro" class="b2b-btn">Quero minha marca na Doris</a>
+        <a href="https://doris.ai/contato" class="b2b-btn">Quero minha marca na Doris</a>
       </div>
     </div>
   </section>
@@ -1033,7 +1291,7 @@
   <!-- ======================================================
        SEÇÃO 5 — FAQ
        ====================================================== -->
-  <section class="b2b-faq">
+  <section class="b2b-faq" id="faq">
     <div class="b2b-container">
       <p class="b2b-section-label">FAQ</p>
       <h2 class="b2b-section-title">Perguntas frequentes</h2>
@@ -1157,7 +1415,7 @@
   <section class="b2b-cta-final" id="parceiro">
     <div class="b2b-container">
       <h2>Sua marca no lugar certo, no momento certo.</h2>
-      <a href="mailto:parceiros@doris.mobi" class="b2b-btn">Quero minha marca na Doris</a>
+      <a href="https://doris.ai/contato" class="b2b-btn">Quero minha marca na Doris</a>
     </div>
   </section>
 
@@ -1262,10 +1520,24 @@
     }
   }, { passive: true });
 
+  /* ---- Desktop: clique no benefício faz scroll até a zona correspondente ---- */
+  function initClickable() {
+    items.forEach(function (el, i) {
+      el.addEventListener('click', function () {
+        if (window.innerWidth < 960) return;
+        var maxScroll = Math.max(1, areaH - stickyH);
+        var targetPct = (i + 0.5) / items.length;
+        var targetY   = areaTop + targetPct * maxScroll;
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+      });
+    });
+  }
+
   function init() {
     cacheMetrics();
     activate(0);
     updateZone();
+    initClickable();
   }
 
   if (document.readyState === 'complete') {
@@ -1273,11 +1545,60 @@
   } else {
     window.addEventListener('load', init);
   }
-  setTimeout(init, 300);
 })();
 </script>
 
+<script>
+(function() {
+  var btn = document.getElementById('b2b-ham-btn');
+  var dropdown = document.getElementById('b2b-nav-dropdown');
+  if (!btn || !dropdown) return;
 
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    dropdown.classList.toggle('open');
+  });
+
+  document.addEventListener('click', function() {
+    dropdown.classList.remove('open');
+  });
+
+  dropdown.addEventListener('click', function() {
+    dropdown.classList.remove('open');
+  });
+})();
+</script>
+
+<script>
+/* =============================================
+   REVEAL CARDS — Features (mobile ≤640px)
+   ============================================= */
+(function () {
+  if (window.innerWidth > 640) return;
+
+  var bento = document.querySelector('.b2b-bento');
+  var cards = bento ? bento.querySelectorAll('.b2b-bento-card') : [];
+  if (!cards.length) return;
+
+  /* Ativa o CSS de estado inicial */
+  bento.setAttribute('data-reveal-init', '1');
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-revealed');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0, rootMargin: '0px 0px -15% 0px' });
+
+  cards.forEach(function (card) { observer.observe(card); });
+
+  /* Segurança: se observer falhar, revela tudo após 2.5s */
+  setTimeout(function () {
+    cards.forEach(function (card) { card.classList.add('is-revealed'); });
+  }, 2500);
+})();
+</script>
 
 </body>
 </html>
