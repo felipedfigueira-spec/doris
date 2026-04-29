@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Você está na lista — Doris</title>
+  <meta name="description" content="Obrigada por entrar na lista de espera da Doris. Em breve você receberá seu convite." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --white:      #FFFFFF;
+  --black:      #000000;
+  --light-gray: #EFEFEF;
+  --silver:     #787878;
+
+  --grad-blob: radial-gradient(
+    ellipse 70% 60% at 60% 40%,
+    rgba(245, 102, 145, 0.70) 0%,
+    rgba(234, 162, 241, 0.55) 40%,
+    rgba(76, 191, 241, 0.30) 70%,
+    transparent 90%
+  );
+  --grad-line: linear-gradient(135deg, #F56691, #EAA2F1, #4CBFF1);
+
+  --radius-btn:  12px;
+  --font: 'Manrope', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  color: var(--black);
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100svh;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+
+/* =============================================
+   NAV
+   ============================================= */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 8px 0;
+  background: transparent;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  border-bottom: none;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease, border-bottom 0.3s ease;
+}
+
+.nav.scrolled {
+  background: rgba(255,255,255,0.80);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+
+/* =============================================
+   HERO
+   ============================================= */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--white);
+  padding-top: 64px;
+}
+
+.hero-blob {
+  position: absolute;
+  top: -15%;
+  right: -20%;
+  width: 900px;
+  height: 900px;
+  background: var(--grad-blob);
+  filter: blur(80px);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-blob-2 {
+  position: absolute;
+  bottom: -20%;
+  left: -15%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    ellipse 60% 60% at 50% 50%,
+    rgba(76, 191, 241, 0.25) 0%,
+    rgba(234, 162, 241, 0.18) 50%,
+    transparent 80%
+  );
+  filter: blur(60px);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 680px;
+  padding: 60px 24px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* =============================================
+   CHECK ICON
+   ============================================= */
+.check-wrap {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #EFEFEF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 32px;
+  animation: pop-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes pop-in {
+  0%   { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+.check-wrap svg {
+  width: 36px;
+  height: 36px;
+  stroke: var(--black);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  animation: draw-check 0.4s ease 0.35s both;
+}
+
+@keyframes draw-check {
+  0%   { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* =============================================
+   TYPOGRAPHY
+   ============================================= */
+.tag {
+  display: inline-block;
+  font-family: var(--font);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--silver);
+  margin-bottom: 20px;
+  animation: fade-up 0.5s ease 0.1s both;
+}
+
+.hero h1 {
+  font-family: var(--font);
+  font-weight: 800;
+  font-size: clamp(36px, 5.5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: var(--black);
+  margin-bottom: 20px;
+  animation: fade-up 0.5s ease 0.2s both;
+}
+
+.hero h1 .light-text {
+  font-weight: 300;
+}
+
+.hero h1 .grad-text {
+  background: var(--grad-line);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-family: var(--font);
+  font-weight: 300;
+  font-size: clamp(16px, 1.8vw, 20px);
+  line-height: 1.60;
+  letter-spacing: -0.02em;
+  color: var(--silver);
+  max-width: 540px;
+  margin: 0 auto 48px;
+  animation: fade-up 0.5s ease 0.3s both;
+}
+
+@keyframes fade-up {
+  0%   { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* =============================================
+   CTA BUTTONS
+   ============================================= */
+.cta-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  animation: fade-up 0.5s ease 0.4s both;
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  padding: 14px 32px;
+  border-radius: var(--radius-btn);
+  text-decoration: none;
+  width: 220px;
+  transition: opacity 0.2s ease, transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--black);
+  color: var(--white);
+  border: 1.5px solid transparent;
+}
+
+.btn-primary:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--black);
+  border: 1.5px solid rgba(0,0,0,0.14);
+}
+
+.btn-secondary:hover {
+  border-color: rgba(0,0,0,0.30);
+  background: rgba(0,0,0,0.03);
+  transform: translateY(-1px);
+}
+
+.btn-secondary svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+/* =============================================
+   DIVIDER + INFO CARD
+   ============================================= */
+.info-card {
+  margin-top: 72px;
+  background: var(--light-gray);
+  border-radius: 20px;
+  padding: 28px 32px;
+  max-width: 560px;
+  width: 100%;
+  text-align: left;
+  animation: fade-up 0.5s ease 0.5s both;
+}
+
+.info-card-title {
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  margin-bottom: 12px;
+}
+
+.info-steps {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: var(--font);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  color: var(--silver);
+}
+
+.step-num {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 11px;
+  color: #fff;
+  margin-top: 1px;
+}
+
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 600px) {
+  .hero-blob  { width: 500px; height: 500px; top: -5%; right: -30%; }
+  .hero-blob-2 { width: 350px; height: 350px; }
+  .info-card  { padding: 24px 20px; }
+}
+</style>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="https://doris.mobi" class="nav-logo">
+      <img src="../docs/Brandbook 2026/Logo.png" alt="Doris" height="20" />
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-blob" aria-hidden="true"></div>
+  <div class="hero-blob-2" aria-hidden="true"></div>
+
+  <div class="hero-inner">
+
+    <!-- Check icon -->
+    <div class="check-wrap" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+
+    <span class="tag">Lista de espera</span>
+
+    <h1>
+      <span class="light-text">Você está</span><br/>
+      <span class="grad-text">na lista.</span>
+    </h1>
+
+    <p class="hero-sub">
+      O acesso ao app será liberado por convite. Em breve você receberá seu convite por e-mail — fique de olho na caixa de entrada.
+    </p>
+
+    <div class="cta-group">
+      <a href="https://doris.ai/download?utm_source=waitlist_thanks&utm_medium=web&utm_campaign=waitlist" class="btn-primary" target="_blank" rel="noopener noreferrer">
+        Baixar o app
+      </a>
+      <a href="https://www.instagram.com/s/aGlnaGxpZ2h0OjE4MzkyNTU5ODM4MTU2MzMy?story_media_id=3854884489269252148&igsh=MTlmb2RqM3FkaGZlZA==" class="btn-secondary" target="_blank" rel="noopener noreferrer">
+        <!-- Instagram icon -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+          <circle cx="12" cy="12" r="4"></circle>
+          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"></circle>
+        </svg>
+        Veja mais do app
+      </a>
+    </div>
+
+    <!-- Info card -->
+    <div class="info-card">
+      <p class="info-card-title">O que acontece agora?</p>
+      <ul class="info-steps">
+        <li>
+          <span class="step-num">1</span>
+          Você está na fila — liberamos novos acessos toda semana para quem se cadastrou primeiro.
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          Quando chegar a sua vez, você recebe um convite com código de acesso exclusivo por e-mail.
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          Enquanto isso, você já pode baixar o app e aguardar pelo convite.
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+
+<script>
+  const nav = document.querySelector('.nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 10);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+
+</body>
+</html>

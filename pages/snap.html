@@ -193,11 +193,27 @@ img, video { display: block; max-width: 100%; height: auto; }
   margin-right: auto;
 }
 
-.lp-hero-mockup video,
 .lp-hero-mockup img {
   width: 100%;
   border-radius: 28px;
   box-shadow: 0 32px 80px rgba(0,0,0,0.12);
+}
+
+.lp-vimeo-wrap {
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.12);
+  aspect-ratio: 9/16;
+}
+
+.lp-vimeo-wrap iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 /* placeholder enquanto cliente não entrega vídeo */
@@ -787,11 +803,14 @@ img, video { display: block; max-width: 100%; height: auto; }
 
     <a href="#snap-upload" class="lp-btn lp-btn-lg">Testar agora</a>
 
-    <!-- Mockup: substitua pelo vídeo ou imagem real -->
     <div class="lp-hero-mockup">
-      <video autoplay muted loop playsinline>
-        <source src="../assets/videos/snap-story.mp4" type="video/mp4" />
-      </video>
+      <div class="lp-vimeo-wrap">
+        <iframe
+          src="https://player.vimeo.com/video/1184211900?autoplay=1&muted=1&loop=1&background=1"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
     </div>
   </div>
 </section>

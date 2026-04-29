@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Doris — Estratégia de Mídia Paga · Maio 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: #FFFFFF;
+      color: #000000;
+      padding: 64px 72px 80px;
+      min-width: 1240px;
+    }
+
+    /* ─── GRADIENTS ─── */
+    .grad-full  { background: linear-gradient(90deg, #EB907D, #F17689, #F56691, #EAA2F1, #7DB6C5, #4CBFF1); }
+    .grad-warm  { background: linear-gradient(135deg, #F56691, #EAA2F1); }
+    .grad-cool  { background: linear-gradient(135deg, #EAA2F1, #4CBFF1); }
+
+    .grad-text-warm {
+      background: linear-gradient(90deg, #F56691, #EAA2F1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .grad-text-cool {
+      background: linear-gradient(90deg, #EAA2F1, #4CBFF1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ─── HEADER ─── */
+    .header {
+      margin-bottom: 52px;
+    }
+
+    .grad-rule {
+      height: 3px;
+      border-radius: 2px;
+      margin-bottom: 32px;
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .header-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #787878;
+      margin-bottom: 10px;
+    }
+
+    .header h1 {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.1;
+    }
+
+    .header-sub {
+      font-size: 14px;
+      color: #787878;
+      font-weight: 400;
+      margin-top: 8px;
+    }
+
+    .phase-nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .phase-chip {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid #EFEFEF;
+      border-radius: 100px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #000;
+      background: #FAFAFA;
+    }
+
+    .chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    .chip-date {
+      font-weight: 400;
+      color: #787878;
+      font-size: 11px;
+    }
+
+    .nav-arrow {
+      font-size: 16px;
+      color: #EFEFEF;
+    }
+
+    /* ─── PHASES GRID ─── */
+    .phases {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    /* ─── PHASE ─── */
+    .phase {
+      border-radius: 20px;
+      border: 1px solid #EFEFEF;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .phase-header {
+      padding: 28px 28px 24px;
+      border-bottom: 1px solid #EFEFEF;
+      position: relative;
+    }
+
+    .phase-accent {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+
+    .phase-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #787878;
+      margin-bottom: 8px;
+    }
+
+    .phase-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .phase-dates {
+      font-size: 12px;
+      color: #787878;
+      font-weight: 500;
+      margin-top: 6px;
+    }
+
+    .phase-body {
+      padding: 20px;
+      background: #FAFAFA;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ─── PLATFORM ─── */
+    .platform {
+      border-radius: 12px;
+      overflow: hidden;
+      background: #FFFFFF;
+      border: 1px solid #EFEFEF;
+    }
+
+    .platform-header {
+      padding: 11px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #F5F5F5;
+      background: #fff;
+    }
+
+    .platform-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    .dot-meta   { background: #0866FF; }
+    .dot-tiktok { background: #000000; }
+
+    .platform-name {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #000;
+    }
+
+    .platform-body {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* ─── CAMPAIGN ─── */
+    .campaign {
+      background: #FAFAFA;
+      border: 1px solid #F0F0F0;
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    .campaign-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .campaign-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: #000;
+    }
+
+    .campaign-arrow {
+      font-size: 11px;
+      color: #787878;
+      font-weight: 400;
+    }
+
+    /* ─── CONJUNTO ─── */
+    .conjunto {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 7px;
+      background: #FFFFFF;
+      border: 1px solid #EFEFEF;
+      margin-top: 5px;
+    }
+
+    .cj-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: #000;
+    }
+
+    .cj-audience {
+      font-size: 10px;
+      color: #787878;
+      margin-top: 2px;
+      font-weight: 400;
+    }
+
+    /* ─── TAGS ─── */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    .tag-cbo {
+      background: linear-gradient(135deg, rgba(245,102,145,0.10), rgba(234,162,241,0.10));
+      color: #C2406A;
+      border: 1px solid rgba(245,102,145,0.22);
+    }
+
+    .tag-adv {
+      background: linear-gradient(135deg, rgba(76,191,241,0.10), rgba(125,182,197,0.10));
+      color: #2A8AAD;
+      border: 1px solid rgba(76,191,241,0.22);
+    }
+
+    .tag-rmkt {
+      background: linear-gradient(135deg, rgba(234,162,241,0.12), rgba(245,102,145,0.10));
+      color: #9A47AC;
+      border: 1px solid rgba(234,162,241,0.28);
+    }
+
+    .tag-buf {
+      background: #F5F5F5;
+      color: #787878;
+      border: 1px solid #E8E8E8;
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      margin-top: 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 24px;
+      border-top: 1px solid #EFEFEF;
+    }
+
+    .footer-logo {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .footer-note {
+      font-size: 11px;
+      color: #787878;
+      font-weight: 400;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="grad-rule grad-full"></div>
+    <div class="header-inner">
+      <div>
+        <div class="header-label">Doris · Paid Media</div>
+        <h1>Estratégia de Mídia Paga</h1>
+        <div class="header-sub">Meta Ads + TikTok Ads · Maio 2026</div>
+      </div>
+      <div class="phase-nav">
+        <div class="phase-chip">
+          <span class="chip-dot grad-warm"></span>
+          Fase 1 — Aquecimento
+          <span class="chip-date">Agora → 15/05</span>
+        </div>
+        <span class="nav-arrow">→</span>
+        <div class="phase-chip">
+          <span class="chip-dot grad-cool"></span>
+          Fase 2 — Conversão
+          <span class="chip-date">15/05 → 31/05</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASES -->
+  <div class="phases">
+
+    <!-- ══ FASE 1 ══ -->
+    <div class="phase phase-1">
+      <div class="phase-header">
+        <div class="phase-accent grad-warm"></div>
+        <div class="phase-badge">Fase 1 · Aquecimento</div>
+        <div class="phase-title grad-text-warm">Tráfego & Awareness</div>
+        <div class="phase-dates">Agora → 15/05 · 18 dias</div>
+      </div>
+      <div class="phase-body">
+
+        <!-- META -->
+        <div class="platform">
+          <div class="platform-header">
+            <span class="platform-dot dot-meta"></span>
+            <span class="platform-name">Meta Ads</span>
+          </div>
+          <div class="platform-body">
+
+            <div class="campaign">
+              <div class="campaign-header">
+                <span class="campaign-name">Tráfego</span>
+                <span class="campaign-arrow">→ Instagram</span>
+                <span class="tag tag-adv">Advantage+</span>
+              </div>
+              <div class="conjunto">
+                <div>
+                  <div class="cj-name">Público Aberto</div>
+                  <div class="cj-audience">Advantage+ Audience</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="campaign">
+              <div class="campaign-header">
+                <span class="campaign-name">Tráfego</span>
+                <span class="campaign-arrow">→ Landing Page</span>
+                <span class="tag tag-cbo">CBO</span>
+                <span class="tag tag-adv">Advantage+</span>
+              </div>
+              <div class="conjunto">
+                <div>
+                  <div class="cj-name">Conj. 1 — Snap</div>
+                  <div class="cj-audience">Advantage+ Audience</div>
+                </div>
+              </div>
+              <div class="conjunto">
+                <div>
+                  <div class="cj-name">Conj. 2 — Browser</div>
+                  <div class="cj-audience">Advantage+ Audience</div>
+                </div>
+              </div>
+              <div class="conjunto">
+                <div>
+                  <div class="cj-name">Conj. 3 — Nova LP Geral</div>
+                  <div class="cj-audience">Advantage+ Audience</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ FASE 2 ══ -->
+    <div class="phase phase-2">
+      <div class="phase-header">
+        <div class="phase-accent grad-cool"></div>
+        <div class="phase-badge">Fase 2 · Conversão</div>
+        <div class="phase-title grad-text-cool">App Installs</div>
+        <div class="phase-dates">15/05 → 31/05 · 16 dias</div>
+      </div>
+      <div class="phase-body">
+
+        <!-- META -->
+        <div class="platform">
+          <div class="platform-header">
+            <span class="platform-dot dot-meta"></span>
+            <span class="platform-name">Meta Ads</span>
+          </div>
+          <div class="platform-body">
+
+            <div class="campaign">
+              <div class="campaign-header">
+                <span class="campaign-name">App Install</span>
+                <span class="tag tag-cbo">CBO</span>
+              </div>
+              <div class="conjunto">
+                <div>
+                  <div class="cj-name">Conj. 1 — Aberto</div>
+                  <div class="cj-audience">Advantage+ Audience</div>
+                </div>
+              </div>
+              <div class="conjunto">
+                <div>
+                  <div class="cj-name">Conj. 2 — Remarketing</div>
+                  <div class="cj-audience">Lista 5k + engajadores Fase 1</div>
+                </div>
+                <span class="tag tag-rmkt">Remarketing</span>
+              </div>
+            </div>
+
+            <div class="campaign">
+              <div class="campaign-header">
+                <span class="campaign-name">Tráfego</span>
+                <span class="campaign-arrow">→ Landing Page</span>
+                <span class="tag tag-cbo">CBO</span>
+                <span class="tag tag-adv">Advantage+</span>
+              </div>
+              <div class="conjunto">
+                <div>
+                  <div class="cj-name">Conj. 1 — Snap</div>
+                  <div class="cj-audience">Advantage+ Audience</div>
+                </div>
+              </div>
+              <div class="conjunto">
+                <div>
+                  <div class="cj-name">Conj. 2 — Browser</div>
+                  <div class="cj-audience">Advantage+ Audience</div>
+                </div>
+              </div>
+              <div class="conjunto">
+                <div>
+                  <div class="cj-name">Conj. 3 — Nova LP Geral</div>
+                  <div class="cj-audience">Advantage+ Audience</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="campaign">
+              <div class="campaign-header">
+                <span class="campaign-name">Tráfego</span>
+                <span class="campaign-arrow">→ Instagram</span>
+                <span class="tag tag-adv">Advantage+</span>
+              </div>
+              <div class="conjunto">
+                <div>
+                  <div class="cj-name">Público Aberto</div>
+                  <div class="cj-audience">Advantage+ Audience</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="campaign">
+              <div class="campaign-header">
+                <span class="campaign-name">Buffer / Escala</span>
+                <span class="tag tag-buf">Reserva</span>
+              </div>
+              <div class="conjunto">
+                <div>
+                  <div class="cj-name">Escalar melhor conjunto</div>
+                  <div class="cj-audience">Definido pelos resultados da Fase 1</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TIKTOK -->
+        <div class="platform">
+          <div class="platform-header">
+            <span class="platform-dot dot-tiktok"></span>
+            <span class="platform-name">TikTok Ads</span>
+          </div>
+          <div class="platform-body">
+            <div class="campaign">
+              <div class="campaign-header">
+                <span class="campaign-name">App Install</span>
+                <span class="tag tag-adv">Advantage+</span>
+              </div>
+              <div class="conjunto">
+                <div>
+                  <div class="cj-name">Aberto + Interesses moda</div>
+                  <div class="cj-audience">Smart Targeting + Interesses</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-logo grad-text-warm">DORIS</div>
+    <div class="footer-note">Estratégia de Mídia Paga · Maio 2026</div>
+  </div>
+
+</body>
+</html>
